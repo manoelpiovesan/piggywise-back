@@ -32,8 +32,12 @@ public class UserResource {
         User user = repository.find("username",
                                     context.getUserPrincipal().getName())
                               .firstResult();
-        return
-                Response.ok(user).build();
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        } else {
+            return
+                    Response.ok(user).build();
+        }
     }
 
     @GET

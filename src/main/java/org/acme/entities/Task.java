@@ -1,5 +1,6 @@
 package org.acme.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.acme.enums.TaskStatus;
@@ -34,5 +35,9 @@ public class Task extends AbstractFullEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     public List<User> members;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    public Piggy piggy;
 
 }

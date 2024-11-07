@@ -55,4 +55,8 @@ public class User extends AbstractFullEntity {
     )
     public List<User> parents;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "members")
+    public List<Piggy> piggies;
+
 }
