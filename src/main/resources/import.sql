@@ -1,54 +1,43 @@
--- -- Users
---
--- -- 1 Admin
--- INSERT INTO `users` (`id`, `profile_type`, `username`, `password`, `role`,
---                      `created_at`,
---                      `updated_at`, deleted_at)
--- VALUES (1, 'PARENT', 'admin', 'admin', 'admin', now(), now(),
---         '1970-01-01 00:00:00+00');
---
--- -- 2 User Parent
--- INSERT INTO `users` (`id`, `profile_type`, `username`, `password`, `role`,
---                      `created_at`,
---                      `updated_at`, deleted_at)
--- VALUES (2, 'PARENT', 'user', 'user', 'user', now(), now(),
---         '1970-01-01 00:00:00+00');
---
--- -- 3 User Child
--- INSERT INTO `users` (`id`, `profile_type`, `username`, `password`, `role`,
---                      `created_at`,
---                      `updated_at`, deleted_at)
--- VALUES (3, 'CHILD', 'user2', 'user2', 'user', now(), now(),
---         '1970-01-01 00:00:00+00');
---
--- -- 4 User Child
--- INSERT INTO `users` (`id`, `profile_type`, `username`, `password`, `role`,
---                      `created_at`,
---                      `updated_at`, deleted_at)
--- VALUES (4, 'CHILD', 'user3', 'user3', 'user', now(), now(),
---         '1970-01-01 00:00:00+00');
---
---
--- -- Tasks
---
--- -- 1
--- INSERT INTO `tasks` (`id`, `title`, `description`, `status`, `points`,
---                      `created_at`,
---                      `updated_at`, deleted_at)
--- VALUES (1, 'Task 1', 'Description Task 1', 'PENDING', 10, now(), now(),
---         '1970-01-01 00:00:00+00');
---
---
--- -- Tasks x Users
---
--- -- 1
--- INSERT INTO `task_members` (`task_id`, `user_id`)
--- VALUES (1, 2);
+-- Roles
+-- 1
+INSERT INTO roles (id, role, created_at, updated_at, deleted_at)
+VALUES (1, 'user', now(), now(), '1970-01-01 00:00:00+00');
 --
 -- -- 2
--- INSERT INTO `task_members` (`task_id`, `user_id`)
--- VALUES (1, 3);
+-- INSERT INTO roles (id, role, created_at, updated_at, deleted_at)
+-- VALUES (3, 'admin', now(), now(), '1970-01-01 00:00:00+00');
 --
 -- -- 3
--- INSERT INTO `task_members` (`task_id`, `user_id`)
--- VALUES (1, 4);
+-- INSERT INTO roles (id, role, created_at, updated_at, deleted_at)
+-- VALUES (2, 'child', now(), now(), '1970-01-01 00:00:00+00');
+--
+-- -- 4
+-- INSERT INTO roles (id, role, created_at, updated_at, deleted_at)
+-- VALUES (4, 'parent', now(), now(), '1970-01-01 00:00:00+00');
+--
+--
+-- Users
+-- 1
+INSERT INTO users (id, username, password, created_at, updated_at, deleted_at)
+VALUES (1, 'user', '$2a$10$3', now(), now(), '1970-01-01 00:00:00+00');
+--
+-- -- 2
+-- INSERT INTO users (id, username, password, created_at, updated_at, deleted_at)
+-- VALUES (2, 'admin', '$2a$10$3', now(), now(), '1970-01-01 00:00:00+00');
+--
+-- -- 3
+-- INSERT INTO users (id, username, password, created_at, updated_at, deleted_at)
+-- VALUES (3, 'child', '$2a$10$3', now(), now(), '1970-01-01 00:00:00+00');
+--
+-- -- 4
+-- INSERT INTO users (id, username, password, created_at, updated_at, deleted_at)
+-- VALUES (4, 'parent', '$2a$10$3', now(), now(), '1970-01-01 00:00:00+00');
+--
+--
+
+-- Piggy
+
+--1
+INSERT INTO piggies (id, name, description, created_at, updated_at, deleted_at)
+VALUES (1, 'Piggy 1', 'Piggy 1 description', now(), now(),
+        '1970-01-01 00:00:00+00');

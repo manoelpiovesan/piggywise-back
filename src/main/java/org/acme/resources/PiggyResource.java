@@ -1,20 +1,12 @@
 package org.acme.resources;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.Response;
 import org.acme.entities.Piggy;
-import org.acme.entities.Task;
-import org.acme.entities.User;
 import org.acme.repositories.PiggyRepository;
-import org.acme.repositories.UserRepository;
-
-import java.util.List;
 
 /**
  * @author Manoel Rodrigues
@@ -23,44 +15,21 @@ import java.util.List;
 public class PiggyResource {
 
     @Inject
-    PiggyRepository repository;
-
-    @Inject
-    UserRepository userRepository;
+    PiggyRepository piggyRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("user")
-    public List<Piggy> list(@Context SecurityContext context) {
-        User user = userRepository.find("username",
-                                        context.getUserPrincipal().getName())
-                                  .firstResult();
-        return Piggy.find(
-                "SELECT p FROM Piggy p WHERE ?1 MEMBER OF p.members",
-                user).list();
+    public Response list() {
+        return Response.ok(piggyRepository.findAll().list()).build();
     }
 
-    @GET
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}/members")
-    public List<User> listMembers(Long id) {
-        Piggy piggy = repository.findById(id);
-        return piggy.members;
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}/tasks")
-    public List<Task> listTasks(Long id) {
-        Piggy piggy = repository.findById(id);
-        return piggy.tasks;
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all")
-    public List<Piggy> listAll() {
-        return Piggy.listAll();
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response add(Piggy piggy) {
+        piggyRepository.persist(piggy);
+        return Response.ok(piggy).build();
     }
 
 }

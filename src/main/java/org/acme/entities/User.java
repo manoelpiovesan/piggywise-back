@@ -7,12 +7,11 @@ import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.UserDefinition;
 import io.quarkus.security.jpa.Username;
 import jakarta.persistence.*;
-import org.acme.enums.ProfileType;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Manoel Rodrigues
@@ -31,32 +30,15 @@ public class User extends AbstractFullEntity {
     @Password
     public String password;
 
+    @Column(name = "name")
+    public String name;
+
     @Roles
-    public String role;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "profile_type", nullable = false)
-    public ProfileType profileType;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "members")
-    public List<Task> tasks;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(mappedBy = "parents")
-    public List<User> children;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany
-    @JoinTable(
-            name = "user_parents",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "parent_id")
-    )
-    public List<User> parents;
+    public List<Role> roles = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "members")
-    public List<Piggy> piggies;
+    @ManyToOne
+    public Family family;
 
 }

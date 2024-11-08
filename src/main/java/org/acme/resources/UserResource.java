@@ -1,16 +1,18 @@
 package org.acme.resources;
 
-import jakarta.annotation.security.RolesAllowed;
+import io.quarkus.elytron.security.common.BcryptUtil;
+import io.quarkus.hibernate.orm.rest.data.panache.PanacheEntityResource;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.SecurityContext;
+import org.acme.entities.Role;
 import org.acme.entities.User;
+import org.acme.repositories.RoleRepository;
 import org.acme.repositories.UserRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,47 +22,33 @@ import java.util.List;
 public class UserResource {
 
     @Inject
-    UserRepository repository;
+    UserRepository userRepository;
+
+    @Inject
+    RoleRepository roleRepository;
 
     @GET
-    @Path("/me")
-    @RolesAllowed("user")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response me(@Context SecurityContext context) {
-
-        System.out.println(context.getUserPrincipal().getName());
-        User user = repository.find("username",
-                                    context.getUserPrincipal().getName())
-                              .firstResult();
-        if (user == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        } else {
-            return
-                    Response.ok(user).build();
-        }
-    }
-
-    @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> list() {
-        return User.listAll();
+        return userRepository.findAll().list();
     }
 
-    @GET
-    @Path("/{id}/parents")
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> listParents(@PathParam("id") Long id) {
-        User user = repository.findById(id);
-        return user.parents;
-    }
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response add(User user) {
 
-    @GET
-    @Path("/{id}/children")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<User> listChildren(@PathParam("id") Long id) {
-        User user = repository.findById(id);
-        return user.children;
+        // If the user already exists, return a conflict response
+        if (userRepository.find("username", user.username).count() > 0) {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+        user.password = BcryptUtil.bcryptHash(user.password);
+        user.createdAt = new Date();
+        userRepository.persist(user);
+
+        return Response.ok(user).build();
     }
 
 }

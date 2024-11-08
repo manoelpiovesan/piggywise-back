@@ -17,6 +17,7 @@ public class AbstractFullEntity extends AbstractEntity {
             columnDefinition = "timestamp with time zone")
     public Date createdAt = new Date();
 
+    @JsonIgnore
     @Column(name = "updated_at", nullable = false,
             columnDefinition = "timestamp with time zone")
     public Date updatedAt = new Date();
