@@ -2,7 +2,6 @@ package org.acme.projections;
 
 import io.quarkus.hibernate.orm.panache.common.ProjectedFieldName;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.acme.entities.Piggy;
 import org.acme.entities.User;
 
 import java.util.List;
@@ -26,21 +25,19 @@ public class FamilyProjection {
     public String description;
 
     @ProjectedFieldName("COALESCE(COUNT(u.id), 0)")
-    public int usersCount;
-
-
+    public Long usersQty;
 
     public FamilyProjection(
             Long id,
             String name,
             String code,
-            String description
-
+            String description,
+            Long usersQty
     ) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.description = description;
-
+        this.usersQty = usersQty;
     }
 }

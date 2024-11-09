@@ -24,8 +24,8 @@ VALUES ('parent', now(), now(), '1970-01-01 00:00:00+00');
 
 -- Users
 -- 1
-INSERT INTO users (username, name, password, created_at, updated_at, deleted_at)
-VALUES ('user', 'Nome do Usuario', '$2a$10$3', now(), now(), '1970-01-01 00:00:00+00');
+INSERT INTO users (username, family_id, name, password, created_at, updated_at, deleted_at)
+VALUES ('user', 1,'Nome do Usuario', '$2a$10$3', now(), now(), '1970-01-01 00:00:00+00');
 
 -- 2
 INSERT INTO users (username, name, password, created_at, updated_at, deleted_at)
