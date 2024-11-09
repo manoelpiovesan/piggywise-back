@@ -1,10 +1,9 @@
 package org.acme.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.acme.utils.RandomIDGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -22,9 +21,20 @@ public class Family extends AbstractFullEntity{
     @Column(name = "name")
     public String name;
 
+    @Column(name = "code")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public String code;
+
+    @Nullable
     @Column(name = "description")
     public String description;
 
-    @OneToMany(mappedBy = "family")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @OneToMany(mappedBy = "family", fetch = FetchType.EAGER)
     public List<User> users;
+
+    @Nullable
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @OneToMany(mappedBy = "family", fetch = FetchType.EAGER)
+    public List<Piggy> piggies;
 }

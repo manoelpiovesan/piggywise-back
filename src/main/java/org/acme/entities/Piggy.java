@@ -1,6 +1,7 @@
 package org.acme.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -16,16 +17,24 @@ import java.util.List;
 @SQLRestriction("deleted_at = '1970-01-01 00:00:00+00'")
 public class Piggy extends AbstractFullEntity{
 
+    @Column(name = "code")
+    public String code;
+
+    @Nullable
     @Column(name = "name")
     public String name;
 
+    @Nullable
     @Column(name = "description")
     public String description;
 
-    @JsonIgnore
+    @Nullable
     @OneToMany(mappedBy = "piggy")
     public List<Task> tasks;
 
-
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "family_id")
+    public Family family;
 
 }

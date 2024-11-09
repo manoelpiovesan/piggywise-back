@@ -29,7 +29,7 @@ public class RoleResource {
     @Transactional
     public Response add(Role role) {
 
-        if (roleRepository.find("role", role.role).count() > 0) {
+        if (roleRepository.find("role", role.name).count() > 0) {
             return Response.status(Response.Status.CONFLICT).build();
         }
 

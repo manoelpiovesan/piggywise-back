@@ -34,11 +34,22 @@ public class User extends AbstractFullEntity {
     public String name;
 
     @Roles
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public List<Role> roles = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "family_id")
     public Family family;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "user_tasks",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    public List<Task> tasks;
 
 }

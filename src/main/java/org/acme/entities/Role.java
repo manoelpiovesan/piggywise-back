@@ -18,10 +18,10 @@ import java.util.List;
 public class Role extends AbstractFullEntity {
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany
     public List<User> users;
 
     @RolesValue
-    public String role;
+    public String name;
 
 }

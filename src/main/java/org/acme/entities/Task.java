@@ -1,9 +1,13 @@
 package org.acme.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.acme.enums.TaskStatus;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.util.List;
 
 /**
  * @author Manoel Rodrigues
@@ -17,6 +21,7 @@ public class Task extends AbstractFullEntity {
     @Column(name = "name")
     public String name;
 
+    @Nullable
     @Column(name = "description")
     public String description;
 
@@ -24,9 +29,15 @@ public class Task extends AbstractFullEntity {
     public int points;
 
     @Enumerated(EnumType.STRING)
-    public TaskStatus status = TaskStatus.PENDING;
+    public TaskStatus status = TaskStatus.pending;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "piggy_id")
     public Piggy piggy;
+
+    @ManyToMany(mappedBy = "tasks")
+    public List<User> users;
+
 
 }
