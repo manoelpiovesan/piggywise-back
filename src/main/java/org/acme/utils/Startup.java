@@ -44,6 +44,7 @@ public class Startup {
             user.name = "Manoel Rodrigues";
             user.roles.add(roleRepository.find("name", "parent").firstResult());
             user.roles.add(roleRepository.find("name", "admin").firstResult());
+            user.family = familyRepository.find("code", "DEVPROD").firstResult();
             userRepository.persist(user);
             System.out.println("\n\n\n <<<<<<<<<<<<<<<<<<<< Manoel created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
         }

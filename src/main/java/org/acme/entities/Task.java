@@ -36,8 +36,8 @@ public class Task extends AbstractFullEntity {
     @JoinColumn(name = "piggy_id")
     public Piggy piggy;
 
-    @ManyToMany(mappedBy = "tasks")
+    @Nullable
+    @ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER)
     public List<User> users;
-
 
 }

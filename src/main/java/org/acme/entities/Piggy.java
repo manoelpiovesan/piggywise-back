@@ -15,10 +15,16 @@ import java.util.List;
 @Table(name = "piggies")
 @SQLDelete(sql = "UPDATE piggies SET deleted_at = NOW() WHERE id = ?")
 @SQLRestriction("deleted_at = '1970-01-01 00:00:00+00'")
-public class Piggy extends AbstractFullEntity{
+public class Piggy extends AbstractFullEntity {
 
     @Column(name = "code")
     public String code;
+
+    @Column(name = "balance")
+    public int balance;
+
+    @Column(name = "goal")
+    public int goal;
 
     @Nullable
     @Column(name = "name")

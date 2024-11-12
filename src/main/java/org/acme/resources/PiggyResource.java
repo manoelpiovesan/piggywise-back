@@ -15,6 +15,8 @@ import org.acme.repositories.FamilyRepository;
 import org.acme.repositories.PiggyRepository;
 import org.acme.repositories.UserRepository;
 
+import java.util.Objects;
+
 /**
  * @author Manoel Rodrigues
  */
@@ -33,14 +35,18 @@ public class PiggyResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Authenticated
-    public Response get(@Context SecurityContext context, String code) {
-        User user = userRepository.find("username", context.getUserPrincipal().getName()).firstResult();
+    public Response get(@Context SecurityContext context) {
+        User user = userRepository.find("username",
+                                        context.getUserPrincipal().getName())
+                                  .firstResult();
 
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(piggyRepository.find("FROM Piggy p WHERE p.family.code = ?1", user.family.code).list()).build();
+        return Response.ok(
+                piggyRepository.find("FROM Piggy p WHERE p.family.code = ?1",
+                                     user.family.code).list()).build();
     }
 
     @POST
@@ -57,19 +63,30 @@ public class PiggyResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Authenticated
     @Transactional
-    public Response sync(@Context SecurityContext context, @PathParam("code") String code) {
-        User user = userRepository.find("username", context.getUserPrincipal().getName()).firstResult();
+    public Response sync(@Context SecurityContext context,
+                         @PathParam("code") String code,
+                         @QueryParam("name") String name,
+                         @QueryParam("description") String description,
+                         @QueryParam("goal") Integer goal) {
+        User user = userRepository.find("username",
+                                        context.getUserPrincipal().getName())
+                                  .firstResult();
 
         if (user == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        Piggy piggy = piggyRepository.find("FROM Piggy p WHERE p.code = ?1", code).firstResult();
+        Piggy piggy =
+                piggyRepository.find("FROM Piggy p WHERE p.code = ?1", code)
+                               .firstResult();
 
         if (piggy == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         piggy.family = user.family;
+        piggy.name = name;
+        piggy.description = description;
+        piggy.goal = goal;
         piggyRepository.getEntityManager().merge(piggy);
         return Response.ok(piggy).build();
     }
@@ -85,7 +102,33 @@ public class PiggyResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(piggyRepository.find("FROM Piggy p WHERE p.family.code = ?1", code).list()).build();
+        return Response.ok(
+                piggyRepository.find("FROM Piggy p WHERE p.family.code = ?1",
+                                     code).list()).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Authenticated
+    public Response getPiggyById(@Context SecurityContext context,
+                                 @PathParam("id") Long id) {
+        User user = userRepository.find("username",
+                                        context.getUserPrincipal().getName())
+                                  .firstResult();
+
+        Piggy piggy = piggyRepository.findById(id);
+
+        if (piggy == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (!Objects.equals(piggy.family.code, user.family.code)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return Response.ok(piggy).build();
+
     }
 
 }

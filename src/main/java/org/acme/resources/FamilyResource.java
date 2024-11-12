@@ -139,5 +139,4 @@ public class FamilyResource {
         return Response.ok(family).build();
     }
 
-
 }

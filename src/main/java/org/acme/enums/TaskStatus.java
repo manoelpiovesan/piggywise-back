@@ -7,5 +7,6 @@ public enum TaskStatus {
     pending,
     in_progress,
     waiting_approval,
-    done,
+    waiting_deposit,
+    done;
 }
