@@ -52,6 +52,28 @@ public class FamilyResource {
         return Response.ok(family).build();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/users")
+    @Authenticated
+    public Response getUsers(@Context SecurityContext context) {
+        User user = userRepository.find("username", context.getUserPrincipal().getName()).firstResult();
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (user.family == null) {
+            return Response.ok().build();
+        }
+
+        Family family = familyRepository.find("code", user.family.code).firstResult();
+
+        return Response.ok(family.users).build();
+    }
+
+
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

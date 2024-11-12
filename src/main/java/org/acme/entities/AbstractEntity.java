@@ -11,7 +11,7 @@ import jakarta.persistence.MappedSuperclass;
  * @author Manoel Rodrigues
  */
 @MappedSuperclass
-public class AbstractEntity {
+public class AbstractEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

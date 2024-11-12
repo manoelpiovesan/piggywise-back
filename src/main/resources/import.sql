@@ -67,8 +67,12 @@ VALUES (5, 3);
 -- Piggy
 
 --1
-INSERT INTO piggies (name, description, created_at, updated_at, deleted_at)
-VALUES ('Piggy 1', 'Piggy 1 description', now(), now(), '1970-01-01 00:00:00+00');
+INSERT INTO piggies (code, name, description, created_at, updated_at, deleted_at)
+VALUES ('PIGGY1', 'Piggy 1', 'Piggy 1 description', now(), now(), '1970-01-01 00:00:00+00');
+
+--1
+INSERT INTO piggies (family_id, code, name, description, created_at, updated_at, deleted_at)
+VALUES (1,'PIGGY2', 'Piggy 2', 'Piggy 2 description', now(), now(), '1970-01-01 00:00:00+00');
 
 
 

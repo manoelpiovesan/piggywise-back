@@ -1,5 +1,6 @@
 package org.acme.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -34,7 +35,7 @@ public class Family extends AbstractFullEntity{
     public List<User> users;
 
     @Nullable
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     @OneToMany(mappedBy = "family", fetch = FetchType.EAGER)
     public List<Piggy> piggies;
 }

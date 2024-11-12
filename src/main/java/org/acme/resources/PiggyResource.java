@@ -1,12 +1,19 @@
 package org.acme.resources;
 
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import org.acme.entities.Family;
 import org.acme.entities.Piggy;
+import org.acme.entities.User;
+import org.acme.repositories.FamilyRepository;
 import org.acme.repositories.PiggyRepository;
+import org.acme.repositories.UserRepository;
 
 /**
  * @author Manoel Rodrigues
@@ -17,10 +24,23 @@ public class PiggyResource {
     @Inject
     PiggyRepository piggyRepository;
 
+    @Inject
+    UserRepository userRepository;
+
+    @Inject
+    FamilyRepository familyRepository;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list() {
-        return Response.ok(piggyRepository.findAll().list()).build();
+    @Authenticated
+    public Response get(@Context SecurityContext context, String code) {
+        User user = userRepository.find("username", context.getUserPrincipal().getName()).firstResult();
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(piggyRepository.find("FROM Piggy p WHERE p.family.code = ?1", user.family.code).list()).build();
     }
 
     @POST
@@ -30,6 +50,42 @@ public class PiggyResource {
     public Response add(Piggy piggy) {
         piggyRepository.persist(piggy);
         return Response.ok(piggy).build();
+    }
+
+    @GET
+    @Path("/sync/{code}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Authenticated
+    @Transactional
+    public Response sync(@Context SecurityContext context, @PathParam("code") String code) {
+        User user = userRepository.find("username", context.getUserPrincipal().getName()).firstResult();
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        Piggy piggy = piggyRepository.find("FROM Piggy p WHERE p.code = ?1", code).firstResult();
+
+        if (piggy == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        piggy.family = user.family;
+        piggyRepository.getEntityManager().merge(piggy);
+        return Response.ok(piggy).build();
+    }
+
+    @GET
+    @Path("/family/{code}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPiggiesByFamilyCode(@PathParam("code") String code) {
+
+        Family family = familyRepository.find("code", code).firstResult();
+
+        if (family == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(piggyRepository.find("FROM Piggy p WHERE p.family.code = ?1", code).list()).build();
     }
 
 }

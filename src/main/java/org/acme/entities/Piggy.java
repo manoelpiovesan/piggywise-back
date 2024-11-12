@@ -29,7 +29,7 @@ public class Piggy extends AbstractFullEntity{
     public String description;
 
     @Nullable
-    @OneToMany(mappedBy = "piggy")
+    @OneToMany(mappedBy = "piggy", fetch = FetchType.EAGER)
     public List<Task> tasks;
 
     @JsonIgnore
