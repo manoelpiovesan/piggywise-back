@@ -3,7 +3,8 @@
 --1
 INSERT INTO families (name, code, description, created_at, updated_at,
                       deleted_at)
-VALUES ('Dev Produtos', 'DEVPROD', 'Family 1 description', now(), now(),
+VALUES ('Desenvolvimento de Produtos', 'DEVPROD', 'Family 1 description', now(),
+        now(),
         '1970-01-01 00:00:00+00');
 
 -- Roles
@@ -79,32 +80,45 @@ VALUES (5, 3);
 INSERT INTO piggies (family_id, balance, goal, code, name, description,
                      created_at, updated_at,
                      deleted_at)
-VALUES (1, 140, 3500, 'PIGGY1', 'Piggy 1', 'Piggy 1 description', now(), now(),
+VALUES (1, 0, 3500, 'PIGGY1', 'Piggy 1', 'Piggy 1 description', now(), now(),
         '1970-01-01 00:00:00+00');
 
---1
+--2
 INSERT INTO piggies (family_id, balance, goal, code, name, description,
                      created_at, updated_at,
                      deleted_at)
-VALUES (1, 360, 1500, 'PIGGY2', 'Piggy 2', 'Piggy 2 description', now(), now(),
+VALUES (1, 0, 1500, 'PIGGY2', 'Piggy 2', 'Piggy 2 description', now(), now(),
+        '1970-01-01 00:00:00+00');
+
+--3
+INSERT INTO piggies (balance, goal, code, name, description,
+                     created_at, updated_at,
+                     deleted_at)
+VALUES (0, 500, 'PIGGY3', 'Piggy 3', 'Piggy 3 description', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- Task
 
 -- 1
-INSERT INTO tasks (piggy_id, name, description, points, status, created_at,
+INSERT INTO tasks (piggy_id, name, description, points, status, due_date,
+                   created_at,
                    updated_at, deleted_at)
-VALUES (1, 'Task 1', 'Task 1 description', 100, 'pending', now(), now(),
+VALUES (1, 'Task 1', 'Task 1 description', 100, 'pending',
+        now() + interval '1 day', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- 2
-INSERT INTO tasks (piggy_id, name, description, points, status, created_at,
+INSERT INTO tasks (piggy_id, name, description, points, status, due_date,
+                   created_at,
                    updated_at, deleted_at)
-VALUES (1, 'Task 2', 'Task 2 description', 200, 'pending', now(), now(),
+VALUES (1, 'Task 2', 'Task 2 description', 200, 'waiting_approval',
+        now() + interval '1 day', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- 3
-INSERT INTO tasks (piggy_id, name, description, points, status, created_at,
+INSERT INTO tasks (piggy_id, name, description, points, status, due_date,
+                   created_at,
                    updated_at, deleted_at)
-VALUES (1, 'Task 3', 'Task 3 description', 300, 'pending', now(), now(),
+VALUES (1, 'Task 3', 'Task 3 description', 300, 'done',
+        now() + interval '1 day', now(), now(),
         '1970-01-01 00:00:00+00');

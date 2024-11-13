@@ -57,6 +57,17 @@ public class Startup {
             userRepository.persist(user);
         }
 
+        List<String> piggyCodes = List.of("AAABBB", "CCCDDD", "EEEFFF", "GGGHHH", "IIIJJJ");
+
+        for(String code : piggyCodes) {
+            if(piggyRepository.find("code", code).count() == 0) {
+                Piggy piggy = new Piggy();
+                piggy.code = code;
+                piggyRepository.persist(piggy);
+                System.out.println("\n\n\n <<<<<<<<<<<<<<<<<<<< Piggy " + code + " created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
+            }
+        }
+
 
     }
 

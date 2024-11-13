@@ -7,6 +7,7 @@ import org.acme.enums.TaskStatus;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +28,9 @@ public class Task extends AbstractFullEntity {
 
     @Column(name = "points")
     public int points;
+
+    @Column(name = "due_date")
+    public Date dueDate;
 
     @Enumerated(EnumType.STRING)
     public TaskStatus status = TaskStatus.pending;

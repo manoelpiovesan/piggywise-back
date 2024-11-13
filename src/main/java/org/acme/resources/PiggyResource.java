@@ -83,6 +83,11 @@ public class PiggyResource {
         if (piggy == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+        if (piggy.family != null) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         piggy.family = user.family;
         piggy.name = name;
         piggy.description = description;
