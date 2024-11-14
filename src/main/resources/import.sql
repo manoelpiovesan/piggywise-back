@@ -119,6 +119,6 @@ VALUES (1, 'Task 2', 'Task 2 description', 200, 'waiting_approval',
 INSERT INTO tasks (piggy_id, name, description, points, status, due_date,
                    created_at,
                    updated_at, deleted_at)
-VALUES (1, 'Task 3', 'Task 3 description', 300, 'done',
+VALUES (1, 'Task 3', 'Task 3 description', 960, 'done',
         now() + interval '1 day', now(), now(),
         '1970-01-01 00:00:00+00');

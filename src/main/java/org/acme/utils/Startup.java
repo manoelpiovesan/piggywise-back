@@ -36,7 +36,7 @@ public class Startup {
     @Transactional
     void onStart(@Observes StartupEvent ev) {
 
-        // Create Manoel user
+        /// Create Manoel user
         if (userRepository.find("username", "manoel").count() == 0) {
             User user = new User();
             user.username = "manoel";
@@ -49,6 +49,7 @@ public class Startup {
             System.out.println("\n\n\n <<<<<<<<<<<<<<<<<<<< Manoel created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
         }
 
+        /// Hashing all passwords
         List<User> currentUsers = userRepository.listAll();
 
         for(User user : currentUsers) {
@@ -57,6 +58,7 @@ public class Startup {
             userRepository.persist(user);
         }
 
+        /// Creating Piggies
         List<String> piggyCodes = List.of("AAABBB", "CCCDDD", "EEEFFF", "GGGHHH", "IIIJJJ");
 
         for(String code : piggyCodes) {
