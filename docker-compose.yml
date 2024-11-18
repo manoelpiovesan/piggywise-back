@@ -18,7 +18,7 @@ services:
   quarkus:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: src/main/docker/Dockerfile.jvm
     container_name: quarkus_app
     environment:
       QUARKUS_DATASOURCE_DB_KIND: postgres
