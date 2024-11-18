@@ -1,14 +1,11 @@
 package org.acme.utils;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.acme.entities.Piggy;
-import org.acme.entities.User;
 import org.acme.repositories.*;
 
 import java.util.List;
@@ -36,7 +33,6 @@ public class Startup {
 
     @Transactional
     void onStart(@Observes StartupEvent ev) {
-        Dotenv dotenv = Dotenv.load();
 
 
         /// Create Manoel user
