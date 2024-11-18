@@ -9,7 +9,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.quarkus:quarkus-container-image-docker'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-hibernate-orm-rest-data-panache'
     implementation 'io.quarkus:quarkus-smallrye-openapi'
@@ -43,9 +42,3 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
-
-quarkus {
-    set('quarkus.package.type', 'uber-jar')  // Gera o JAR autossuficiente
-}
-
-
