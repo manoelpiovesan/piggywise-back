@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-container-image-docker'
+    implementation 'io.quarkus:quarkus-container-image-jib'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-hibernate-orm-rest-data-panache'
     implementation 'io.quarkus:quarkus-smallrye-openapi'
@@ -19,6 +21,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-hibernate-orm'
     implementation 'io.quarkus:quarkus-rest'
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }
@@ -42,3 +45,9 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
+
+quarkus {
+    set('quarkus.package.type', 'uber-jar')  // Gera o JAR autossuficiente
+}
+
+

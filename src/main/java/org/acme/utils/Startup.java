@@ -1,5 +1,6 @@
 package org.acme.utils;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -35,6 +36,8 @@ public class Startup {
 
     @Transactional
     void onStart(@Observes StartupEvent ev) {
+        Dotenv dotenv = Dotenv.load();
+
 
         /// Create Manoel user
         if (userRepository.find("username", "manoel").count() == 0) {
@@ -48,28 +51,6 @@ public class Startup {
             userRepository.persist(user);
             System.out.println("\n\n\n <<<<<<<<<<<<<<<<<<<< Manoel created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
         }
-
-        /// Hashing all passwords
-        List<User> currentUsers = userRepository.listAll();
-
-        for(User user : currentUsers) {
-            user.password = BcryptUtil.bcryptHash("manoel");
-            System.out.println("<<<<<<<<<<<<<<<<<<<< Trocando senha do usuário: " + user.username + " >>>>>>>>>>>>>>>>>>>>>>>>\n");
-            userRepository.persist(user);
-        }
-
-        /// Creating Piggies
-        List<String> piggyCodes = List.of("AAABBB", "CCCDDD", "EEEFFF", "GGGHHH", "IIIJJJ");
-
-        for(String code : piggyCodes) {
-            if(piggyRepository.find("code", code).count() == 0) {
-                Piggy piggy = new Piggy();
-                piggy.code = code;
-                piggyRepository.persist(piggy);
-                System.out.println("\n\n\n <<<<<<<<<<<<<<<<<<<< Piggy " + code + " created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
-            }
-        }
-
 
     }
 
