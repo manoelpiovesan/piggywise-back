@@ -10,7 +10,6 @@ repositories {
 
 dependencies {
     implementation 'io.quarkus:quarkus-container-image-docker'
-    implementation 'io.quarkus:quarkus-container-image-jib'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-hibernate-orm-rest-data-panache'
     implementation 'io.quarkus:quarkus-smallrye-openapi'
