@@ -52,4 +52,9 @@ public class User extends AbstractFullEntity {
     )
     public List<Task> tasks;
 
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "claimedBy")
+    public List<Reward> rewardsClaimed;
+
 }

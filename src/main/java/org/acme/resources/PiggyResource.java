@@ -66,8 +66,7 @@ public class PiggyResource {
     public Response sync(@Context SecurityContext context,
                          @PathParam("code") String code,
                          @QueryParam("name") String name,
-                         @QueryParam("description") String description,
-                         @QueryParam("goal") Integer goal) {
+                         @QueryParam("description") String description) {
         User user = userRepository.find("username",
                                         context.getUserPrincipal().getName())
                                   .firstResult();
@@ -91,7 +90,6 @@ public class PiggyResource {
         piggy.family = user.family;
         piggy.name = name;
         piggy.description = description;
-        piggy.goal = goal;
         piggyRepository.getEntityManager().merge(piggy);
         return Response.ok(piggy).build();
     }
@@ -134,6 +132,40 @@ public class PiggyResource {
 
         return Response.ok(piggy).build();
 
+    }
+
+
+    @POST
+    @Path("/{code}/deposit")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Authenticated
+    @Transactional
+    public Response deposit(@Context SecurityContext context,
+                            @PathParam("code") String code,
+                            @QueryParam("value") Double value) {
+        User user = userRepository.find("username",
+                                        context.getUserPrincipal().getName())
+                                  .firstResult();
+
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        Piggy piggy = piggyRepository.find("code", code).firstResult();
+
+        if (piggy == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (!Objects.equals(piggy.family.code, user.family.code)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        piggy.balance += value;
+        piggyRepository.getEntityManager().merge(piggy);
+
+        return Response.ok(piggy).build();
     }
 
 }

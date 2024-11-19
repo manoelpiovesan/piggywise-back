@@ -29,28 +29,28 @@ VALUES ('parent', now(), now(), '1970-01-01 00:00:00+00');
 -- 1
 INSERT INTO users (username, family_id, name, password, created_at, updated_at,
                    deleted_at)
-VALUES ('user', 1, 'Nome do Usuario', '$2a$10$3', now(), now(),
+VALUES ('user', 1, 'Nome do Usuario', 'manoel', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- 2
 INSERT INTO users (username, name, password, created_at, updated_at, deleted_at)
-VALUES ('admin', 'Nome do Usuario', '$2a$10$3', now(), now(),
+VALUES ('admin', 'Nome do Usuario', 'manoel', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- 3
 INSERT INTO users (username, name, password, created_at, updated_at, deleted_at)
-VALUES ('child', 'Nome do Usuario', '$2a$10$3', now(), now(),
+VALUES ('child', 'Nome do Usuario', 'manoel', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- 4
 INSERT INTO users (username, name, password, created_at, updated_at, deleted_at)
-VALUES ('parent', 'Nome do Usuario', '$2a$10$3', now(), now(),
+VALUES ('parent', 'Nome do Usuario', 'manoel', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- 5
 INSERT INTO users (username, family_id, name, password, created_at, updated_at,
                    deleted_at)
-VALUES ('manoel2', 1, 'Manoel Rodrigues', '$2a$10$3', now(), now(),
+VALUES ('manoel2', 1, 'Manoel Rodrigues', 'manoel', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- Users x Roles
@@ -77,24 +77,24 @@ VALUES (5, 3);
 -- Piggy
 
 --1
-INSERT INTO piggies (family_id, balance, goal, code, name, description,
+INSERT INTO piggies (family_id, balance, code, name, description,
                      created_at, updated_at,
                      deleted_at)
-VALUES (1, 0, 3500, 'PIGGY1', 'Piggy 1', 'Piggy 1 description', now(), now(),
+VALUES (1, 0, 'PIGGY1', 'Piggy 1', 'Piggy 1 description', now(), now(),
         '1970-01-01 00:00:00+00');
 
 --2
-INSERT INTO piggies (family_id, balance, goal, code, name, description,
+INSERT INTO piggies (balance, code, name, description,
                      created_at, updated_at,
                      deleted_at)
-VALUES (1, 0, 1500, 'PIGGY2', 'Piggy 2', 'Piggy 2 description', now(), now(),
+VALUES (0, 'PIGGY2', 'Piggy 2', 'Piggy 2 description', now(), now(),
         '1970-01-01 00:00:00+00');
 
 --3
-INSERT INTO piggies (balance, goal, code, name, description,
+INSERT INTO piggies (balance, code, name, description,
                      created_at, updated_at,
                      deleted_at)
-VALUES (0, 500, 'PIGGY3', 'Piggy 3', 'Piggy 3 description', now(), now(),
+VALUES (0, 'PIGGY3', 'Piggy 3', 'Piggy 3 description', now(), now(),
         '1970-01-01 00:00:00+00');
 
 -- Task
@@ -103,7 +103,7 @@ VALUES (0, 500, 'PIGGY3', 'Piggy 3', 'Piggy 3 description', now(), now(),
 INSERT INTO tasks (piggy_id, name, description, points, status, due_date,
                    created_at,
                    updated_at, deleted_at)
-VALUES (1, 'Task 1', 'Task 1 description', 100, 'pending',
+VALUES (1, 'Lixo', 'Colocar o lixo para fora.', 100, 'pending',
         now() + interval '1 day', now(), now(),
         '1970-01-01 00:00:00+00');
 
@@ -111,7 +111,7 @@ VALUES (1, 'Task 1', 'Task 1 description', 100, 'pending',
 INSERT INTO tasks (piggy_id, name, description, points, status, due_date,
                    created_at,
                    updated_at, deleted_at)
-VALUES (1, 'Task 2', 'Task 2 description', 200, 'waiting_approval',
+VALUES (1, 'Lição de Casa', 'Fazer os exercícios da página 2 à 8.', 200, 'waiting_approval',
         now() + interval '1 day', now(), now(),
         '1970-01-01 00:00:00+00');
 
@@ -119,6 +119,21 @@ VALUES (1, 'Task 2', 'Task 2 description', 200, 'waiting_approval',
 INSERT INTO tasks (piggy_id, name, description, points, status, due_date,
                    created_at,
                    updated_at, deleted_at)
-VALUES (1, 'Task 3', 'Task 3 description', 960, 'done',
+VALUES (1, 'Lavar a Louça', 'Lavar após a janta.', 960, 'done',
         now() + interval '1 day', now(), now(),
+        '1970-01-01 00:00:00+00');
+
+
+-- Rewards
+
+--1
+INSERT INTO rewards (piggy_id, name, description, points, created_at,
+                     updated_at, deleted_at)
+VALUES (1, 'Reward 1', 'Reward 1 description', 1000, now(), now(),
+        '1970-01-01 00:00:00+00');
+
+--2
+INSERT INTO rewards (piggy_id, name, description, points, created_at,
+                     updated_at, deleted_at)
+VALUES (1, 'Reward 2', 'Reward 2 description', 2000, now(), now(),
         '1970-01-01 00:00:00+00');

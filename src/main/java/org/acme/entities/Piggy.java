@@ -23,9 +23,6 @@ public class Piggy extends AbstractFullEntity {
     @Column(name = "balance")
     public int balance;
 
-    @Column(name = "goal")
-    public int goal;
-
     @Nullable
     @Column(name = "name")
     public String name;
@@ -37,6 +34,10 @@ public class Piggy extends AbstractFullEntity {
     @Nullable
     @OneToMany(mappedBy = "piggy", fetch = FetchType.EAGER)
     public List<Task> tasks;
+
+    @Nullable
+    @OneToMany(mappedBy = "piggy", fetch = FetchType.EAGER)
+    public List<Reward> rewards;
 
     @JsonIgnore
     @ManyToOne

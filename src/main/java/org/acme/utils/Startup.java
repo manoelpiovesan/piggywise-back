@@ -34,7 +34,11 @@ public class Startup {
 
     @Transactional
     void onStart(@Observes StartupEvent ev) {
-
+        // Bcrypt all passwords
+        List<User> users = userRepository.findAll().list();
+        for (User user : users) {
+            user.password = BcryptUtil.bcryptHash(user.password);
+        }
 
         /// Create Manoel user
         if (userRepository.find("username", "manoel").count() == 0) {
@@ -48,6 +52,7 @@ public class Startup {
             userRepository.persist(user);
             System.out.println("\n\n\n <<<<<<<<<<<<<<<<<<<< Manoel created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
         }
+
 
     }
 

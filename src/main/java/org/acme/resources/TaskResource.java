@@ -144,7 +144,7 @@ public class TaskResource {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        task.status = TaskStatus.waiting_deposit;
+        task.status = TaskStatus.done;
         taskRepository.getEntityManager().merge(task);
 
         return Response.ok(task).build();
