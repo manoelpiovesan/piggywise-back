@@ -6,6 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.acme.entities.Piggy;
+import org.acme.entities.Role;
 import org.acme.entities.User;
 import org.acme.repositories.*;
 
@@ -34,11 +36,24 @@ public class Startup {
 
     @Transactional
     void onStart(@Observes StartupEvent ev) {
-        // Bcrypt all passwords
-        List<User> users = userRepository.findAll().list();
-        for (User user : users) {
-            user.password = BcryptUtil.bcryptHash(user.password);
-        }
+
+        List<String> piggiesCodes = List.of("PIGGY1", "PIGGY2", "PIGGY3", "PIGGY4", "PIGGY5");
+        piggiesCodes.forEach(code -> {
+            if (piggyRepository.find("code", code).count() == 0) {
+                Piggy piggy = new Piggy();
+                piggy.code = code;
+                piggyRepository.persist(piggy);
+            }
+        });
+
+        List<String> roles = List.of("parent", "child");
+        roles.forEach(role -> {
+            if (roleRepository.find("name", role).count() == 0) {
+                Role newRole = new Role();
+                newRole.name = role;
+                roleRepository.persist(newRole);
+            }
+        });
 
         /// Create Manoel user
         if (userRepository.find("username", "manoel").count() == 0) {

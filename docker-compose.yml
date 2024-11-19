@@ -24,6 +24,8 @@ services:
       QUARKUS_DATASOURCE_PASSWORD: manoel
       QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/piggywise
       QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION: update
+
+
       QUARKUS_HTTP_PORT: 8080
     ports:
       - "8080:8080"
