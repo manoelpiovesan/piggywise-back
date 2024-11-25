@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.acme.entities.Family;
 import org.acme.entities.Piggy;
 import org.acme.entities.Role;
 import org.acme.entities.User;
@@ -37,15 +38,16 @@ public class Startup {
     @Transactional
     void onStart(@Observes StartupEvent ev) {
 
-        List<String> piggiesCodes = List.of("PIGGY1", "PIGGY2", "PIGGY3", "PIGGY4", "PIGGY5");
-        piggiesCodes.forEach(code -> {
-            if (piggyRepository.find("code", code).count() == 0) {
-                Piggy piggy = new Piggy();
-                piggy.code = code;
-                piggyRepository.persist(piggy);
-            }
-        });
+        // Creating 100 piggies
+        for (int i = 0; i < 100; i++) {
+            Piggy piggy = new Piggy();
+            piggy.code = "PIGGY" + i;
+            piggy.name = "Piggy " + i;
+            piggy.description = "Piggy " + i + " description";
+            piggyRepository.persist(piggy);
+        }
 
+        // Creating roles
         List<String> roles = List.of("parent", "child");
         roles.forEach(role -> {
             if (roleRepository.find("name", role).count() == 0) {
@@ -55,7 +57,18 @@ public class Startup {
             }
         });
 
-        /// Create Manoel user
+        // Creating DEVPRO family
+        if (familyRepository.find("code", "DEVPRO").count() == 0) {
+            Family family = new Family();
+            family.code = "DEVPRO";
+            family.name = "Desenvolvimento de Produto";
+            family.description = "Uma família de desenvolvedores de produto";
+            familyRepository.persist(family);
+            System.out.println(
+                    "\n\n\n <<<<<<<<<<<<<<<<<<<< DEVPRO family created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
+        }
+
+        // Creating Manoel
         if (userRepository.find("username", "manoel").count() == 0) {
             User user = new User();
             user.username = "manoel";
@@ -63,11 +76,10 @@ public class Startup {
             user.name = "Manoel Rodrigues";
             user.roles.add(roleRepository.find("name", "parent").firstResult());
             user.roles.add(roleRepository.find("name", "admin").firstResult());
-            user.family = familyRepository.find("code", "DEVPROD").firstResult();
             userRepository.persist(user);
-            System.out.println("\n\n\n <<<<<<<<<<<<<<<<<<<< Manoel created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
+            System.out.println(
+                    "\n\n\n <<<<<<<<<<<<<<<<<<<< Manoel created! >>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n");
         }
-
 
     }
 
