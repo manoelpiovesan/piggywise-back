@@ -25,7 +25,8 @@ public class TaskRepository
     @Inject
     PiggyRepository piggyRepository;
 
-    public Response create(Task task, SecurityContext context, Long piggyId) {
+    public Response create(Task task, SecurityContext context, Long piggyId,
+                           Long targetUserId) {
         User user = findUser(context);
 
         if (user == null) {
@@ -45,6 +46,14 @@ public class TaskRepository
 
         if (!Objects.equals(piggy.family.code, user.family.code)) {
             return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        if (targetUserId != null) {
+            User targetUser = userRepository.findById(targetUserId);
+            if (targetUser == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            task.targetUser = targetUser;
         }
 
         task.piggy = piggy;

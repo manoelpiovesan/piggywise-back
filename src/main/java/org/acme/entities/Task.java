@@ -1,6 +1,7 @@
 package org.acme.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.acme.enums.TaskStatus;
@@ -40,8 +41,9 @@ public class Task extends AbstractFullEntity {
     @JoinColumn(name = "piggy_id")
     public Piggy piggy;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Nullable
-    @ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER)
-    public List<User> users;
+    @ManyToOne(fetch = FetchType.EAGER)
+    public User targetUser;
 
 }

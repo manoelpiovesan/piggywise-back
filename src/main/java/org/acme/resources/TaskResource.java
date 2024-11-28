@@ -34,8 +34,9 @@ public class TaskResource {
     @Authenticated
     @Transactional
     public Response create(@Context SecurityContext context, Task task,
-                           @QueryParam("piggyId") Long piggyId) {
-        return taskRepository.create(task, context, piggyId);
+                           @QueryParam("piggyId") Long piggyId,
+                           @QueryParam("targetUserId") Long targetUserId) {
+        return taskRepository.create(task, context, piggyId, targetUserId);
     }
 
     @GET

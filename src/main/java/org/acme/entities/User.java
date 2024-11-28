@@ -44,12 +44,7 @@ public class User extends AbstractFullEntity {
     public Family family;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "user_tasks",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id")
-    )
+    @OneToMany(mappedBy = "targetUser")
     public List<Task> tasks;
 
 
