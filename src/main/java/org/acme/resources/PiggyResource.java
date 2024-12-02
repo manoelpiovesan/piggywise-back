@@ -72,7 +72,6 @@ public class PiggyResource {
     @Path("/{code}/deposit")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Authenticated
     @Transactional
     public Response deposit(@PathParam("code") String code,
                             @QueryParam("value") Double value) {

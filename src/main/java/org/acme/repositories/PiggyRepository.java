@@ -97,7 +97,7 @@ public class PiggyRepository implements PanacheRepository<Piggy> {
         return Response.ok(piggy).build();
     }
 
-    public Response deposit( String code,
+    public Response deposit(String code,
                             Double value) {
 
         Piggy piggy = find("code", code).firstResult();
@@ -107,7 +107,7 @@ public class PiggyRepository implements PanacheRepository<Piggy> {
         }
 
         piggy.balance += value;
-        getEntityManager().merge(piggy);
+        piggy.persist();
 
         return Response.ok(piggy).build();
     }
