@@ -8,10 +8,8 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
-import org.acme.entities.Piggy;
 import org.acme.repositories.PiggyRepository;
 
-import java.util.Objects;
 
 /**
  * @author Manoel Rodrigues
@@ -27,15 +25,6 @@ public class PiggyResource {
     @Authenticated
     public Response get(@Context SecurityContext context) {
         return piggyRepository.get(context);
-    }
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Transactional
-    public Response add(Piggy piggy) {
-        piggyRepository.persist(piggy);
-        return Response.ok(piggy).build();
     }
 
     @GET

@@ -11,8 +11,6 @@ import jakarta.ws.rs.core.SecurityContext;
 import org.acme.entities.Task;
 import org.acme.repositories.TaskRepository;
 
-import java.util.Objects;
-
 /**
  * @author Manoel Rodrigues
  */

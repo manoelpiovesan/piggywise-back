@@ -11,6 +11,8 @@ import org.acme.entities.Piggy;
 import org.acme.entities.Role;
 import org.acme.entities.User;
 import org.acme.repositories.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
 @ApplicationScoped
 public class Startup {
 
+    private static final Logger log = LoggerFactory.getLogger(Startup.class);
     @Inject
     UserRepository userRepository;
 
@@ -38,13 +41,14 @@ public class Startup {
     @Transactional
     void onStart(@Observes StartupEvent ev) {
 
-        // Creating 100 piggies
-        for (int i = 0; i < 100; i++) {
-            Piggy piggy = new Piggy();
-            piggy.code = "PIGGY" + i;
-            piggy.name = "Piggy " + i;
-            piggy.description = "Piggy " + i + " description";
-            piggyRepository.persist(piggy);
+        if(piggyRepository.count() < 2){
+            for (int i = 0; i < 100; i++) {
+                Piggy piggy = new Piggy();
+                piggy.code = "PIGGY" + i;
+                piggy.name = "Piggy " + i;
+                piggy.description = "Piggy " + i + " description";
+                piggyRepository.persist(piggy);
+            }
         }
 
         // Creating roles
